@@ -36,7 +36,7 @@ jobs:
         run: |
           rm -rf project
           mkdir -p project
-          unzip -q Watch2Earn-V1-2.zip -d project
+          unzip -q Watch2Earn-V1-FIXED.zip -d project
 
       - name: Build APK
         run: |
