@@ -20,13 +20,11 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Install Android SDK packages
+      - name: Check Android SDK
         run: |
-          yes | sdkmanager --licenses || true
-          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT"
+          ls -la "$ANDROID_HOME"
 
       - name: Install Gradle
         run: |
@@ -37,16 +35,16 @@ jobs:
       - name: Extract Watch2Earn project
         run: |
           rm -rf project
-          mkdir project
+          mkdir -p project
           unzip -q Watch2Earn-V1-2.zip -d project
 
       - name: Build APK
         run: |
           cd project
-          gradle assembleDebug --no-daemon
+          gradle assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Watch2Earn-debug-apk
+          name: Watch2Earn-APK
           path: project/app/build/outputs/apk/debug/app-debug.apk
